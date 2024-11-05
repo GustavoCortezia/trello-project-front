@@ -1,39 +1,27 @@
 <script setup lang="ts">
 import router from '@/router';
-import { login } from '@/services/api';
 
   const email = ref<string>('');
   const password = ref<string>('');
-  const error = ref<boolean>(false);
 
   function registerBtn(){
-    router.push('/register')
+    router.push('/login')
   }
 
-  async function handleLogin(){
-    const response = await login(email.value, password.value);
-    if(response?.status == 200)
-      router.push('/home')
-    if(response?.status != 200){
-      error.value = true
-    }
-  }
 </script>
 
 
 <template>
   <div class="div-container d-flex justify-center align-center">
-    <v-container class="login-card d-flex align-center justify-center flex-column rounded-xl" min-width="400">
-      <div>
-        <img class="logo pa-2" src="../assets/Planify Logo icone.png" alt="" srcset="">
-      </div>
+    <v-container class="login-card d-flex align-center justify-center flex-column rounded-xl">
 
-      <h1 class="login-title mt-7">Login to Planify</h1>
+      <h1 class="login-title mt-7">Register</h1>
 
       <form class="form">
         <v-text-field
         class="input mt-10"
           v-model="email"
+          :counter="10"
           label="Email"
           required
         ></v-text-field>
@@ -41,14 +29,13 @@ import { login } from '@/services/api';
         <v-text-field
         class="input mt-2"
           v-model="password"
+          :counter="10"
           label="Password"
           required
         ></v-text-field>
 
-        <p v-if="error" class="text-red">Invalid Email or/and Password</p>
-
-        <v-btn class="login-btn mt-5" @click="handleLogin">Login</v-btn>
-        <button class="register-btn mt-2 mb-15" @click="registerBtn">Doesn't have an account? Register</button>
+        <v-btn class="login-btn mt-5" >Register</v-btn>
+        <button class="register-btn mt-2 mb-15" @click="registerBtn">Already has an account? Login</button>
     </form>
     </v-container>
   </div>

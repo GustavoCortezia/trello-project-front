@@ -21,3 +21,13 @@ export async function getEnvironments(id:number) {
       return error?.response;
     }
 }
+
+export async function login(email:string, password:string){
+  try {
+    const response = await client.post('/login', {email:email, password: password});
+    sessionStorage.setItem('Token', response.data.token);
+    return response;
+  } catch (error) {
+
+  }
+}
