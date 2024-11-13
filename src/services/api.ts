@@ -59,7 +59,32 @@ export async function createCards(name:string, date:string, sectionId: number, e
   } catch (error:any) {
     return error?.response;
   }
+}
 
+export async function editCard(id:number, name:string, date:string, sectionId: number, environmentId: number) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${getUserToken()}`}
+  };
+  try {
+    const response = await client.put('/card/' + id, {name:name, date:date, sectionId:sectionId, environmentId: environmentId}, config);
+    return response;
+  } catch (error:any) {
+    return error?.response;
+  }
+}
+
+export async function deleteCard(id:number) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${getUserToken()}`}
+  };
+  try {
+    const response = await client.delete('/card/' + id, config);
+    return response;
+  } catch (error:any) {
+    return error?.response;
+  }
 }
 
 export async function getEnvironments() {
