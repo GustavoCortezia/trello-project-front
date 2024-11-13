@@ -23,7 +23,7 @@ import { login } from '@/services/api';
 
 <template>
   <div class="div-container d-flex justify-center align-center">
-    <v-container class="login-card d-flex align-center justify-center flex-column rounded-xl" min-width="400">
+    <v-container class="login-card pa-10 d-flex align-center justify-center flex-column rounded-xl" min-width="400">
       <div>
         <img class="logo pa-2" src="../assets/Planify Logo icone.png" alt="" srcset="">
       </div>
@@ -32,15 +32,16 @@ import { login } from '@/services/api';
 
       <form class="form">
         <v-text-field
-        class="input mt-10"
+          class="input mt-10"
           v-model="email"
           label="Email"
           required
         ></v-text-field>
 
         <v-text-field
-        class="input mt-2"
+          class="input mt-2"
           v-model="password"
+          type="password"
           label="Password"
           required
         ></v-text-field>
@@ -55,7 +56,7 @@ import { login } from '@/services/api';
 </template>
 
 
-<style>
+<style scoped>
 .register-btn{
   width: 100%;
   color:  rgb(2, 152, 213);
@@ -63,6 +64,14 @@ import { login } from '@/services/api';
 
 .login-title{
   color:  rgb(2, 152, 213);
+}
+
+@media (max-width: 400px) {
+  .login-card{
+    width: 100% !important;
+    box-shadow: none !important;
+
+  }
 }
 
 .form{

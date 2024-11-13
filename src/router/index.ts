@@ -5,6 +5,7 @@
  */
 
 // Composables
+import EnvironmentView from '@/pages/EnvironmentView.vue'
 import HomeView from '@/pages/HomeView.vue'
 import LoginView from '@/pages/LoginView.vue'
 import RegisterView from '@/pages/RegisterView.vue'
@@ -14,7 +15,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: LoginView,
       meta: {
@@ -35,6 +36,14 @@ const router = createRouter({
       component: RegisterView,
       meta: {
         title: 'Register - Planify',
+      },
+    },
+    {
+      path: '/environment/:id',
+      name: 'environment',
+      component: EnvironmentView,
+      meta: {
+        title: 'Environment - Planify',
       },
     },
   ],
