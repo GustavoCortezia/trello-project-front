@@ -5,6 +5,7 @@ import { EnvironmentType } from '@/types/EnvironmentType';
 import { useRoute } from 'vue-router';
 import { SectionType } from '@/types/SectionType';
 import { CardType } from '@/types/CardType';
+import Draggable from 'vuedraggable';
 
 const environments = ref<EnvironmentType[]>([]);
 const sections = ref<SectionType[]>([]);
@@ -189,6 +190,48 @@ async function handleEditCard() {
   }
 }
 
+
+async function updateCardSection(card: CardType, newSectionId: number) {
+  card.sectionId = newSectionId;
+  await editCard(card.id, card.name, card.date, newSectionId, route.params.id);
+}
+
+
+
+const holdingCard = ref<CardType>(cards.value[1]);
+const dropSectionID = ref<number>(0);
+
+
+
+
+function allowDrop(ev: any) {
+  ev.preventDefault();
+}
+
+function drag(card: CardType, ev: any) {
+  holdingCard.value = card;
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(section: number, ev: any) {
+  dropSectionID.value = section;
+ updateCardSection(holdingCard.value, dropSectionID.value)
+
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+}
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 <template>
@@ -202,7 +245,7 @@ async function handleEditCard() {
 
 <div class="env-container">
   <div class="environment-div mx-15 d-flex">
-      <div v-for="section in sections" :key="section.id" class="section-div d-flex align-center flex-column mx-4">
+      <div v-for="section in sections" :key="section.id" class="section-div d-flex align-center flex-column mx-4" @drop="drop(section.id)" @dragover="allowDrop">
       <div class="btn-show-more-div">
 
         <v-speed-dial
@@ -222,12 +265,17 @@ async function handleEditCard() {
       </div>
       <div class="section-name-div">
         <p class="section-name my-3 px-4 py-2 rounded-xl" ><v-icon class="mr-0" icon="mdi-arrow-down-drop-circle-outline" :style="{ color: section.color }" start></v-icon> {{ section.name}}</p>
+
+
       </div>
       <div class="create-card-btn-div d-flex" :style="{ backgroundColor: section.color }">
           <v-btn  @click="openCardModal(section.id)" class="create-card-btn"><v-icon icon="mdi-plus" start></v-icon>Add Card </v-btn>
       </div>
+
+      <!-- <div  id="div1" @drop="drop(section.id)" @dragover="allowDrop"> </div> -->
       <div v-for="card in cards" :key="card.id" class="card-for-div d-flex justify-center" >
-        <div v-if="card.sectionId == section.id" class="card-div d-flex justify-center mb-3 " :style="{ border: `2px solid ${section.color}` }">
+        <div id="drag1" draggable="true" @dragstart="drag(card)" width="336" height="69" v-if="card.sectionId == section.id" class="card-div d-flex justify-center mb-3 " :style="{ border: `2px solid ${section.color}` }">
+
 
           <h4 class="card-name d-flex justtify-center ma-2">{{ card.name }}</h4>
 
@@ -509,10 +557,17 @@ async function handleEditCard() {
     </v-dialog>
    <!-- END MODAL EDIT Card -->
 
+
 </template>
 
 
 <style scoped>
+#div1{
+  border: 1px solid aqua;
+  width: 250px;
+  height: 250px;
+}
+
   .dots-div{
     display: flex;
     justify-content:flex-end;

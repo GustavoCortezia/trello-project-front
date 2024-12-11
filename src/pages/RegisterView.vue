@@ -11,7 +11,7 @@ import { register } from '@/services/api';
 
 
   function LoginBtn(){
-    router.push('/login')
+    router.push('/')
   }
 
   async function handleRegister() {
@@ -53,7 +53,7 @@ import { register } from '@/services/api';
     console.log(response);
 
     if(response.status == 201){
-      router.push('/login');
+      router.push('/');
     }
     else{
       errorMessage.value = 'Email must be valid and unique!';
